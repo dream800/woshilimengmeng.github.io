@@ -1,2 +1,145 @@
-hello world !
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+    <style>
+        *{
+            margin:0;
+            padding:0 ;
+        }
+        canvas{
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="canvas">Your brower can not support this canvas technology!</canvas>
+
+
+<script>
+
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+var w = canvas.width = window.innerWidth ;
+var h = canvas.height = window.innerHeight ;
+
+window.onresize = function () {
+    w = canvas.width = window.innerWidth ;
+    h = canvas.height = window.innerHeight ;
+}
+
+
+//ctx.fillStyle =  '#ff585b';
+//ctx.fillRect(100,100,50,50);
+//
+//ctx.strokeStyle = '#ffffff' ;
+//ctx.strokeRect(200,200,50,50);
+//
+////x,y坐标 R半径 从0 开始 到 2π 弧度制  顺时针
+//ctx.arc(300,300,50,0,Math.PI*2,false);
+//ctx.strokeStyle = '#9affb0';
+//ctx.fillStyle = '#9391ff';
+//ctx.fill();
+//ctx.stroke();
+
+//transition
+
+//var y = 0 ;
+//ctx.fillStyle = '#a3a2ff';
+//setInterval(function () {
+//    y = y + 10 ;
+//    ctx.clearRect(0,0,w,h);
+//    ctx.fillRect(100,y,50,50);
+//},100);
+
+//创建
+ function Drop(){}
+ Drop.prototype = {
+     init:function () {
+         this.x = random(0,w) ;
+         this.y = 0 ;
+         this.vy = random(4,5);//生成一个随机的速度值
+         this.h = random(h*0.8,h*0.9);
+         this.r = 1 ;
+         this.vr = 1 ; //半径增大的速度值
+         this.a = 1 ;
+         this.va = 0.96;
+     },
+     draw:function () {
+         if(this.y > this.h){
+             ctx.strokeStyle = 'rgba(0,255,255,'+this.a+')';
+             ctx.beginPath();
+             ctx.arc(this.x,this.y,this.r,0,Math.PI*2,false);
+             ctx.stroke();
+         }else {
+             ctx.fillStyle = '#3fc';
+             ctx.fillRect(this.x,this.y,5,10);
+         }
+
+        this.update();
+     },
+     update:function () {
+         if(this.y < this.h){
+             this.y += this.vy ;
+         }else{
+             if(this.a<0.03){
+               this.r += this.vr ;
+               if(this.r > 50){
+                   this.a *= this.va ;
+               }
+             }else {
+                 this.init();
+             }
+         }
+     }
+ }
+
+var drops = [] ;
+
+for(var i=0;i<30;i++){
+    setTimeout(function () {
+        var drop = new Drop();
+        drop.init();
+        drops.push(drop);
+    },i*200);
+}
+
+setInterval(function () {
+    for(var i=0;i<drops.length;i++){
+        ctx.fillStyle =  'rgba(0,0,0,0.1)';
+        ctx.fillRect(0,0,w,h);
+        for(var i=0;i<drops.length;i++){
+            drops[i].draw();
+        }
+    }
+
+},30);
+
+function random(min,max) {
+    return Math.random()*(max-min)+min;  //生成max到min 的值
+
+}
+// var drop = new Drop();
+//drop.init();
+//setInterval(function () {
+//    //ctx.clearRect(0,0,w,h);
+//    ctx.fillStyle =  'rgba(0,0,0,0.1)';
+//    ctx.fillRect(0,0,w,h);
+//    drop.draw();
+//},30);
+//drop.draw();
+
+
+
+
+
+    
+</script>
+
+
+</body>
+</html>
 
