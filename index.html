@@ -85,7 +85,7 @@ window.onresize = function () {
          if(this.y < this.h){
              this.y += this.vy ;
          }else{
-             if(this.a<0.03){
+             if(this.a > 0.03){
                this.r += this.vr ;
                if(this.r > 50){
                    this.a *= this.va ;
